@@ -74,6 +74,21 @@
             margin-left: 10px;
         }
 
+        .fc .fc-button-primary {
+            background-color: #1976D2;
+            border-color: #1976D2;
+        }
+
+        .fc .fc-button-primary:not(:disabled).fc-button-active {
+            background-color: #C6DDF3;
+            border-color: #C6DDF3;
+            color: #1976D2;
+        }
+
+        .fc .fc-button-primary:not(:disabled).fc-button-active:focus {
+            box-shadow: rgba(25, 118, 210, .5) 0 0 0 .2rem;
+        }
+
         @media screen and (max-width: 616px) and (min-width: 426px) {
             .fc-direction-ltr .fc-daygrid-event.fc-event-end,
             .fc-direction-rtl .fc-daygrid-event.fc-event-start {
@@ -104,6 +119,25 @@
                 width: 100%;
             }
         }
+
+        .fc .fc-button-primary.fc-prev-button:hover,
+        .fc .fc-button-primary.fc-next-button:hover,
+        .fc .fc-button-primary.fc-prev-button:focus,
+        .fc .fc-button-primary.fc-next-button:focus {
+            background-color: #1976D2;
+            border-color: #1976D2;
+            color: #fff;
+            box-shadow: none;
+        }
+
+        @media (hover: none) {
+            .fc-prev-button:active,
+            .fc-next-button:active {
+                background-color: #C6DDF3;
+                border-color: #C6DDF3;
+                color: #1976D2;
+            }
+        }
     </style>
 </head>
 <body>
@@ -111,6 +145,11 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const calendarEl = document.getElementById('calendar');
+
+        const toggleClass = () => {
+            const btns = document.querySelectorAll('.fc-button-group > button');
+            btns.forEach(btn => btn.classList.remove('fc-button-active'));
+        }
 
         const calendar = new FullCalendar.Calendar(calendarEl, {
             // вид по умолчанию
@@ -131,29 +170,58 @@
 
             // создание собственных кнопок (в данном контексте используется для расширения функционала базовых кнопок)
             customButtons: {
+                eventsListButton: {
+                    text: 'События',
+                    click: e => {
+                        toggleClass();
+                        e.currentTarget.classList.add('fc-button-active');
+                        calendar.changeView('listYear');
+                    }
+                },
                 yearButton: {
                     text: 'Год',
-                    click: () => {
+                    click: e => {
                         //const test = new Date(2023, 9, 26);
 
                         //calendar.setOption('dateAlignment', 'year');
                         //calendar.gotoDate(test);
+
+                        toggleClass();
+                        e.currentTarget.classList.add('fc-button-active');
                         calendar.changeView('multiMonthYear');
                     }
                 },
-                eventsListButton: {
-                    text: 'События',
-                    click: () => {
-                        calendar.changeView('listYear');
+                monthButton: {
+                    text: 'Месяц',
+                    click: e => {
+                        toggleClass();
+                        e.currentTarget.classList.add('fc-button-active');
+                        calendar.changeView('dayGridMonth');
                     }
-                }
+                },
+                weekButton: {
+                    text: 'Неделя',
+                    click: e => {
+                        toggleClass();
+                        e.currentTarget.classList.add('fc-button-active');
+                        calendar.changeView('timeGridWeek');
+                    }
+                },
+                dayButton: {
+                    text: 'День',
+                    click: e => {
+                        toggleClass();
+                        e.currentTarget.classList.add('fc-button-active');
+                        calendar.changeView('timeGridDay');
+                    }
+                },
             },
 
             // расположение кнопок
             headerToolbar: {
-                left: 'prev next today',
+                left: 'prev next today', // prev next today
                 center: 'title',
-                right: 'eventsListButton,yearButton,dayGridMonth,timeGridWeek,timeGridDay' // listYear, dayGridDay, dayGridWeek, dayGridMonth, dayGridYear, multiMonthFourMonth, timeGridWeek, timeGridDay
+                right: 'eventsListButton,yearButton,monthButton,weekButton,dayButton' // listYear, dayGridDay, dayGridWeek, dayGridMonth, dayGridYear, multiMonthFourMonth, timeGridWeek, timeGridDay, либо названия пользовательских кнопок
             },
 
             // виды
@@ -186,7 +254,12 @@
                     title: 'Работа',
                     start: '2023-10-07T09:00',
                     end: '2023-10-24T18:00',
-
+                },
+                {
+                    title: 'Мощный обед',
+                    start: '2023-10-07T09:00',
+                    end: '2023-10-24T18:00',
+                    color: '#378006',
                 },
                 {
                     title: 'Стирка',
