@@ -57,6 +57,8 @@
 
         .fc-toolbar-chunk:last-child > .fc-button-group {
             width: 100%;
+            display: flex;
+            flex-wrap: wrap;
         }
 
         .fc .fc-toolbar.fc-header-toolbar {
@@ -68,10 +70,38 @@
             grid: repeat(2, minmax(38.8px, auto)) / 184px repeat(2, calc((100% - 184px) / 2));
         }
 
+        .fc-direction-ltr .fc-button-group > .fc-button:not(:first-child) {
+            margin-left: 10px;
+        }
+
         @media screen and (max-width: 616px) and (min-width: 426px) {
             .fc-direction-ltr .fc-daygrid-event.fc-event-end,
             .fc-direction-rtl .fc-daygrid-event.fc-event-start {
                 width: 74px;
+            }
+        }
+
+        @media screen and (max-width: 565px) and (min-width: 523px) {
+            .fc-direction-ltr .fc-button-group > .fc-button:last-child {
+                margin: 10px 0 0 0;
+            }
+        }
+
+        @media screen and (max-width: 522px) {
+            .fc-toolbar-chunk:nth-child(2),
+            .fc-toolbar-chunk:last-child {
+                grid-column: 1 / 4;
+            }
+
+            .fc-header-toolbar.fc-toolbar.fc-toolbar-ltr {
+                gap: 10px 0;
+            }
+        }
+
+        @media screen and (max-width: 382px) {
+            .fc-direction-ltr .fc-button-group > .fc-button:last-child {
+                margin: 10px 0 0 0;
+                width: 100%;
             }
         }
     </style>
