@@ -64,6 +64,12 @@
             grid: repeat(2, minmax(38.8px, auto)) / 184px repeat(2, calc((100% - 184px) / 2));
         }
 
+        @media screen and (max-width: 616px) and (min-width: 426px) {
+            .fc-direction-ltr .fc-daygrid-event.fc-event-end,
+            .fc-direction-rtl .fc-daygrid-event.fc-event-start {
+                width: 74px;
+            }
+        }
     </style>
 </head>
 <body>
